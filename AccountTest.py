@@ -1,24 +1,25 @@
-def errorPinMessage():
+from Account import Account
+def error_pin_message():
     print("Invalid PIN. PIN must be exactly 4 digits.")
     print("Re enter your PIN: ", end="")
 
 
-def errorAccountNumberMessage():
+def error_account_number_message():
     print("Invalid Account Number. Account Number must be exactly 10 digits.")
     print("Re enter your Account Number: ", end="")
 
 
-def accountMissingMessage():
+def account_missing_message():
     print("Account number not found.")
     print("Re enter your Account Number: ", end="")
 
 
-def incorrectPinMessage():
+def incorrect_pin_message():
     print("Incorrect PIN.")
     print("Enter your PIN again: ", end="")
 
 
-def errorAmountMessage():
+def error_amount_message():
     print("Amount must be higher than 0.")
     print("Enter amount again: ", end="")
 
@@ -42,358 +43,356 @@ answer = "yes"
 
 while answer.lower() == "yes":
 
-    count = 1
+   count = 1
 
-    for index in range(len(options)):
+   for index in range(len(options)):
         print(f"{count}. {options[index]}")
         count += 1
 
-    choice = int(input("\nSelect an option: "))
+   choice = int(input("\nSelect an option: "))
 
-    account = Account()
-    amount = 0
-    account_found = False
+   
+   amount = 0
+   account_found = False
 
-if choice == 1:
+   if choice == 1:
 
-    account = Account()
+     account = Account()
 
-    print("\n========== Create Your Account ============")
-    print("------------------------------------------")
+     print("\n========== Create Your Account ============")
+     print("------------------------------------------")
 
-    fullName = input("Enter Your Full Name: ")
-    account.setFullName(fullName)
+     full_name = input("Enter Your Full Name: ")
+     account.set_full_name(full_name)
 
-    bvn = input("Enter Your BVN: ")
+     bvn = input("Enter Your BVN: ")
 
-    while not account.validateBvn(bvn):
+     while not account.validate_bvn(bvn):
         print("Invalid BVN. BVN must not be less or higher than 11 digits.")
         bvn = input("Re Enter Your BVN: ")
 
-    bvnExists = True
+     bvn_exists = True
 
-    while bvnExists:
+     while bvn_exists:
 
-        bvnExists = False
+        bvn_exists = False
 
         for index in range(len(accounts)):
 
-            if accounts[index].getBvn() == bvn:
+            if accounts[index].get_bvn() == bvn:
 
                 print("BVN already exists.")
                 bvn = input("Enter another BVN: ")
 
-                bvnExists = True
+                bvn_exists = True
                 break
 
-    account.setBvn(bvn)
+     account.set_bvn(bvn)
 
-    pin = input("Set-up a 4-digit PIN: ")
+     pin = input("Set-up a 4-digit PIN: ")
 
-    while not account.validatePin(pin):
-        errorPinMessage()
+     while not account.validate_pin(pin):
+        error_pin_message()
         pin = input()
 
-    account.setPin(pin)
+     account.set_pin(pin)
 
-    print("\nAccount Created Successfully")
-    print("================================")
-    print("Full Name      :", account.getFullName())
-    print("Account Number :", account.getAccountNumber())
-    print("BVN            :", account.getBvn())
-    print("PIN            :", account.getPin())
-    print("Balance        :", account.getBalance())
-    print("Status         :", account.getActive())
+     print("\nAccount Created Successfully")
+     print("================================")
+     print("Full Name      :", account.get_full_name())
+     print("Account Number :", account.get_account_number())
+     print("BVN            :", account.get_bvn())
+     print("PIN            :", account.get_pin())
+     print("Balance        :", account.get_balance())
+     print("Status         :", account.get_active())
 
-    accounts.append(account)
+     accounts.append(account)
 
 
-elif choice == 2:
+   elif choice == 2:
 
-    print("========== Deposit Money ==========")
-    print("--------------------------------------")
+     print("========== Deposit Money ==========")
+     print("--------------------------------------")
 
-    accountNumber = input("Enter your Account Number: ")
+     account_number = input("Enter your Account Number: ")
 
-    while not account.validateAccountNumber(accountNumber):
-        errorAccountNumberMessage()
-        accountNumber = input()
+     while not account.validate_account_number(account_number):
+        error_account_number_message()
+        account_number = input()
 
-    accountFound = False
+     account_found = False
 
-    for index in range(len(accounts)):
+     for index in range(len(accounts)):
 
         account = accounts[index]
 
-        if account.verifyAccountNumber(accountNumber):
+        if account.verify_account_number(account_number):
 
             pin = input("Enter your PIN: ")
 
-            while not account.validatePin(pin):
-                errorPinMessage()
+            while not account.validate_pin(pin):
+                error_pin_message()
                 pin = input()
 
-            while not account.verifyPin(pin):
-                incorrectPinMessage()
+            while not account.verify_pin(pin):
+                incorrect_pin_message()
                 pin = input()
 
             amount = float(input("Enter amount: "))
 
-            while not account.validateAmount(amount):
-                errorAmountMessage()
+            while not account.validate_amount(amount):
+                error_amount_message()
                 amount = float(input())
 
-            accountFound = True
+            account_found = True
 
             account.deposit(amount)
 
             print("\nMoney Deposited Successfully")
             print("================================")
-            print("Full Name :", account.getFullName())
-            print("Balance   :", account.getBalance())
-            print("Status    :", account.getActive())
+            print("Full Name :", account.get_full_name())
+            print("Balance   :", account.get_balance())
+            print("Status    :", account.get_active())
 
             break
 
-    if not accountFound:
+     if not account_found:
         print("Account number not found.")
 
 
-elif choice == 3:
+   elif choice == 3:
 
-    print("========== Transfer ==========")
-    print("---------------------------------")
+     print("========== Transfer ==========")
+     print("---------------------------------")
 
-    accountNumber = input("Enter your Account Number: ")
+     account_number = input("Enter your Account Number: ")
 
-    while len(accountNumber) != 10:
-        errorAccountNumberMessage()
-        accountNumber = input()
+     while len(account_number) != 10:
+        error_account_number_message()
+        account_number = input()
 
-    senderFound = False
+     sender_found = False
 
-    for index in range(len(accounts)):
+     for index in range(len(accounts)):
 
         sender = accounts[index]
 
-        if sender.verifyAccountNumber(accountNumber):
+        if sender.verify_account_number(account_number):
 
-            senderFound = True
+            sender_found = True
 
             pin = input("Enter your PIN: ")
 
-            while not sender.validatePin(pin):
-                errorPinMessage()
+            while not sender.validate_pin(pin):
+                error_pin_message()
                 pin = input()
 
-            while not sender.verifyPin(pin):
-                incorrectPinMessage()
+            while not sender.verify_pin(pin):
+                incorrect_pin_message()
                 pin = input()
 
-            receiverAccount = input("Enter The Receiver's Account Number: ")
+            receiver_account = input("Enter The Receiver's Account Number: ")
 
-            while len(receiverAccount) != 10:
-                errorAccountNumberMessage()
-                receiverAccount = input()
+            while len(receiver_account) != 10:
+                error_account_number_message()
+                receiver_account = input()
 
-            if sender.verifyAccountNumber(receiver_account):
+            if sender.verify_account_number(receiver_account):
                 print("You cannot transfer money to the same account.")
                 break
 
-            receiverFound = False
+            receiver_found = False
 
             for count in range(len(accounts)):
 
                 receiver = accounts[count]
 
-                if receiver.verifyAccountNumber(receiverAccount):
+                if receiver.verify_account_number(receiver_account):
 
                     receiver_found = True
 
                     amount = float(input("Enter amount: "))
 
-                    while not sender.validateAmount(amount):
-                        errorAmountMessage()
+                    while not sender.validate_amount(amount):
+                        error_amount_message()
                         amount = float(input())
 
                     sender.transfer(receiver, amount)
 
-                    print("================================")
-                    print("Sender Balance   :", sender.getBalance())
-                    print("Receiver Balance :", receiver.getBalance())
+                    
 
                     break
 
-            if not receiverFound:
+            if not receiver_found:
                 print("Receiver account number not found.")
 
-    if not senderFound:
+     if not sender_found:
         print("Account number not found.")
 
 
-elif choice == 4:
+   elif choice == 4:
 
-    print("========== Withdrawal ==========")
-    print("---------------------------------")
+     print("========== Withdrawal ==========")
+     print("---------------------------------")
 
-    accountNumber = input("Enter your Account Number: ")
+     account_number = input("Enter your Account Number: ")
 
-    while len(accountNumber) != 10:
-        errorAccountNumberMessage()
-        accountNumber = input()
+     while len(account_number) != 10:
+        error_account_number_message()
+        account_number = input()
 
-    accountFound = False
+     account_found = False
 
-    for index in range(len(accounts)):
+     for index in range(len(accounts)):
 
         account = accounts[index]
 
-        if account.verifyAccountNumber(account_number):
+        if account.verify_account_number(account_number):
 
-            accountFound = True
+            account_found = True
 
             pin = input("Enter your PIN: ")
 
-            while not account.validatePin(pin):
-                errorPinMessage()
+            while not account.validate_pin(pin):
+                error_pin_message()
                 pin = input()
 
-            while not account.verifyPin(pin):
-                incorrectPinMessage()
+            while not account.verify_pin(pin):
+                incorrect_pin_message()
                 pin = input()
 
             amount = float(input("Enter amount: "))
 
-            while not account.validateAmount(amount):
-                errorAmountMessage()
+            while not account.validate_amount(amount):
+                error_amount_message()
                 amount = float(input())
 
             account.withdraw(amount)
 
             print("================================")
-            print("Full Name :", account.getFullName())
-            print("Balance   :", account.getBalance())
+            print("Full Name :", account.get_full_name())
+            print("Balance   :", account.get_balance())
 
             break
 
-    if not accountFound:
+     if not account_found:
         print("Account number not found.")
 
 
-elif choice == 5:
+   elif choice == 5:
 
-    print("========== Change Pin ==========")
-    print("---------------------------------")
+     print("========== Change Pin ==========")
+     print("---------------------------------")
 
-    accountNumber = input("Enter your Account Number: ")
+     account_number = input("Enter your Account Number: ")
 
-    while len(accountNumber) != 10:
-        errorAccountNumberMessage()
-        accountNumber = input()
+     while len(account_number) != 10:
+        error_account_number_message()
+        account_number = input()
 
-    accountFound = False
+     account_found = False
 
-    for index in range(len(accounts)):
+     for index in range(len(accounts)):
 
         account = accounts[index]
 
-        if account.verifyAccountNumber(accountNumber):
+        if account.verify_account_number(account_number):
 
-            accountFound = True
+            account_found = True
 
             pin = input("Enter your PIN: ")
 
-            while not account.validatePin(pin):
-                errorPinMessage()
+            while not account.validate_pin(pin):
+                error_pin_message()
                 pin = input()
 
-            while not account.verifyPin(pin):
-                incorrectPinMessage()
+            while not account.verify_pin(pin):
+                incorrect_pin_message()
                 pin = input()
 
-            newPin = input("Enter Your New PIN: ")
+            new_pin = input("Enter Your New PIN: ")
 
-            while not account.validatePin(new_pin):
-                errorPinMessage()
-                newPin = input()
+            while not account.validate_pin(new_pin):
+                error_pin_message()
+                new_pin = input()
 
-            account.changePin(new_pin)
-    if not accountFound:
+            account.change_pin(new_pin)
+     if not account_found:
         print("Account number not found.")
 
 
-elif choice == 6:
+   elif choice == 6:
 
-    print("========== Check Balance ==========")
-    print("-----------------------------------")
+     print("========== Check Balance ==========")
+     print("-----------------------------------")
 
-    accountNumber = input("Enter your Account Number: ")
+     account_number = input("Enter your Account Number: ")
 
-    while len(accountNumber) != 10:
-        errorAccountNumberMessage()
-        accountNumber = input()
+     while len(account_number) != 10:
+        error_account_number_message()
+        account_number = input()
 
-    accountFound = False
+     account_found = False
 
-    for index in range(len(accounts)):
+     for index in range(len(accounts)):
 
         account = accounts[index]
 
-        if account.verifyAccountNumber(accountNumber):
+        if account.verify_account_number(account_number):
 
-            accountFound = True
+            account_found = True
 
             pin = input("Enter your PIN: ")
 
-            while not account.validatePin(pin):
-                errorPinMessage()
+            while not account.validate_pin(pin):
+                error_pin_message()
                 pin = input()
 
-            while not account.verifyPin(pin):
-                incorrectPinMessage()
+            while not account.verify_pin(pin):
+                incorrect_pin_message()
                 pin = input()
 
             print("\n========== Account Details ==========")
-            print("Full Name      :", account.getFullName())
-            print("Account Number :", account.getAccountNumber())
-            print("Balance        :", account.getBalance())
-            print("Status         :", account.getActive())
+            print("Full Name      :", account.get_full_name())
+            print("Account Number :", account.get_account_number())
+            print("Balance        :", account.get_balance())
+            print("Status         :", account.get_active())
 
             break
 
-    if not accountFound:
+     if not account_found:
         print("Account number not found.")
 
 
-elif choice == 7:
+   elif choice == 7:
 
-    print("========== Deactivate Account ==========")
-    print("-----------------------------------------")
+     print("========== Deactivate Account ==========")
+     print("-----------------------------------------")
 
-    account_number = input("Enter your Account Number: ")
+     account_number = input("Enter your Account Number: ")
 
-    while len(account_number) != 10:
-        errorAccountNumberMessage()
-        accountNumber = input()
+     while len(account_number) != 10:
+        error_account_number_message()
+        account_number = input()
 
-    accountFound = False
+     account_found = False
 
-    for index in range(len(accounts)):
+     for index in range(len(accounts)):
 
         account = accounts[index]
 
-        if account.verifyAccountNumber(accountNumber):
+        if account.verify_account_number(account_number):
 
-            accountFound = True
+            account_found = True
 
             pin = input("Enter your PIN: ")
 
-            while not account.validatePin(pin):
-                errorPinMessage()
+            while not account.validate_pin(pin):
+                error_pin_message()
                 pin = input()
 
-            while not account.verifyPin(pin):
-                incorrectPinMessage()
+            while not account.verify_pin(pin):
+                incorrect_pin_message()
                 pin = input()
 
             deactivate = input("Do you want to deactivate your account? (yes/no): ")
@@ -405,10 +404,10 @@ elif choice == 7:
 
             break
 
-    if not accountFound:
+     if not account_found:
         print("Account number not found.")
 
-    answer = input("\nDo you want to continue? (yes/no): ")
+   answer = input("\nDo you want to continue? (yes/no): ")
 
-    if answer.lower() == "no":
-        print("\nThanks for banking with us.")
+   if answer.lower() == "no":
+      print("\nThanks for banking with us.")
