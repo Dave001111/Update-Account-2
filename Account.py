@@ -4,46 +4,46 @@ import secrets
 class Account:
 
     def __init__(self):
-        self.fullName = ""
-        self.accountNumber = self.generateAccountNumber()
+        self.full_name = ""
+        self.account_number = self.generate_account_number()
         self.bvn = ""
         self.pin = ""
         self.balance = 0.0
         self.active = False
 
-    def generateAccountNumber(self):
-        accountNumber = ""
+    def generate_account_number(self):
+        account_number = ""
 
         for count in range(10):
-            accountNumber += str(secrets.randbelow(10))
+            account_number += str(secrets.randbelow(10))
 
-        return accountNumber
+        return account_number
 
-    def setFullName(self, fullName):
-        self.fullName = fullName
+    def set_full_name(self, full_name):
+        self.full_name = full_name
 
-    def setBvn(self, bvn):
+    def set_bvn(self, bvn):
         self.bvn = bvn
 
-    def setPin(self, pin):
+    def set_pin(self, pin):
         self.pin = pin
 
-    def getFullName(self):
-        return self.fullName
+    def get_full_name(self):
+        return self.full_name
 
-    def getAccountNumber(self):
-        return self.accountNumber
+    def get_account_number(self):
+        return self.account_number
 
-    def getPin(self):
+    def get_pin(self):
         return self.pin
 
-    def getBvn(self):
+    def get_bvn(self):
         return self.bvn
 
-    def getBalance(self):
+    def get_balance(self):
         return self.balance
 
-    def getActive(self):
+    def get_active(self):
         if self.active:
             return "Active"
         else:
@@ -55,6 +55,15 @@ class Account:
             self.active = True
 
     def transfer(self, receiver, amount):
+
+        if not self.active:
+           print("Account has been deactivated")
+           return
+
+        if not receiver.active:
+           print("receiver account has been deactivated")
+           return
+
         if amount > 0 and amount <= self.balance:
             self.balance -= amount
             receiver.deposit(amount)
@@ -73,28 +82,28 @@ class Account:
         else:
             print("Insufficient Balance.")
 
-    def changePin(self, newPin):
-        self.pin = newPin
+    def change_pin(self, new_pin):
+        self.pin = new_pin
         print("\nPIN changed successfully!")
 
     def deactivate(self):
         self.active = False
         print("Account deactivated successfully.")
 
-    def verifyPin(self, pin):
+    def verify_pin(self, pin):
         return self.pin == pin
 
-    def verifyAccountNumber(self, accountNumber):
-        return self.accountNumber == accountNumber
+    def verify_account_number(self, account_number):
+        return self.account_number == account_number
 
-    def validateBvn(self, bvn):
+    def validate_bvn(self, bvn):
         return len(bvn) == 11
 
-    def validatePin(self, pin):
+    def validate_pin(self, pin):
         return len(pin) == 4
 
-    def validateAccountNumber(self, accountNumber):
-        return len(accountNumber) == 10
+    def validate_account_number(self, account_number):
+        return len(account_number) == 10
 
-    def validateAmount(self, amount):
+    def validate_amount(self, amount):
         return amount > 0
